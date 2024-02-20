@@ -18,4 +18,11 @@
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Requests\Fuel\" />
+    <Folder Include="Requests\Transmission\" />
+    <Folder Include="Responses\Fuel\" />
+    <Folder Include="Responses\Transmission\" />
+  </ItemGroup>
+
 </Project>
