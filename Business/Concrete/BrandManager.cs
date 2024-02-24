@@ -5,12 +5,14 @@ using Business.Requests.Brand;
 using Business.Responses.Brand;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using System.Security.AccessControl;
 
 namespace Business.Concrete;
 
 public class BrandManager : IBrandService
 {
-    private readonly IBrandDal _brandDal;
+    private readonly IBrandDal _brandDal; // Bir entity sevice'i kendi entitysi dışında hiç bir entity'nin DAL'ını injekte etmemelidir.
+    //private readonly IModelDal _modelDal;
     private readonly BrandBusinessRules _brandBusinessRules;
     private readonly IMapper _mapper;
 
@@ -25,8 +27,8 @@ public class BrandManager : IBrandService
     {
         // İş Kuralları
         _brandBusinessRules.CheckIfBrandNameNotExists(request.Name);
+        // Authentication-Authorization
         // Validation
-        // Yetki kontrolü
         // Cache
         // Transaction
         //Brand brandToAdd = new(request.Name)
@@ -36,6 +38,11 @@ public class BrandManager : IBrandService
 
         AddBrandResponse response = _mapper.Map<AddBrandResponse>(brandToAdd);
         return response;
+    }
+
+    public Brand? GetById(int id)
+    {
+        return _brandDal.Get(i => i.Id == id);
     }
 
     public GetBrandListResponse GetList(GetBrandListRequest request)
