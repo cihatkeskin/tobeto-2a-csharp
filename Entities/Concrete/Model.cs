@@ -35,5 +35,5 @@ public class Model : Entity<int>
     public Fuel? Fuel { get; set; } = null; // one-to-one ilişki var.
     public Transmission? Transmission { get; set; } = null; // one-to-one ilişki var.
 
-    //public ICollection<Car>? Cars { get; set; } = null; // model ile car arasında one-to-many ilişki var.
+    public ICollection<Car>? Cars { get; set; } = null; // model ile car arasında one-to-many ilişki var.
 }

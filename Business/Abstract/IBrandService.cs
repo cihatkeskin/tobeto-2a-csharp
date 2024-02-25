@@ -10,5 +10,5 @@ public interface IBrandService
 
     public GetBrandListResponse GetList(GetBrandListRequest request);
 
-    Brand? GetById(int id); // TODO: Replace with DTO 
+    Brand? GetById(int id); // TODO: Replace with DTO
 }

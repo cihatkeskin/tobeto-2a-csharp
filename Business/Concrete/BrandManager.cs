@@ -11,7 +11,7 @@ namespace Business.Concrete;
 
 public class BrandManager : IBrandService
 {
-    private readonly IBrandDal _brandDal; // Bir entity sevice'i kendi entitysi dışında hiç bir entity'nin DAL'ını injekte etmemelidir.
+    private readonly IBrandDal _brandDal; // Bir entity service'i kendi entitysi dışında hiç bir entity'nin DAL'ını injekte etmemelidir.
     //private readonly IModelDal _modelDal;
     private readonly BrandBusinessRules _brandBusinessRules;
     private readonly IMapper _mapper;
