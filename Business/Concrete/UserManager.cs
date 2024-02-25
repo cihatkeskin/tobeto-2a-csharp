@@ -2,6 +2,7 @@
 using Business.Requests.User;
 using Core.Entities;
 using Core.Utilities.Security.Hashing;
+using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 
 namespace Business.Concrete;
@@ -9,10 +10,12 @@ namespace Business.Concrete;
 public class UserManager : IUserService
 {
     private readonly IUserDal _userDal;
+    private readonly ITokenHelper _tokenHelper;
 
-    public UserManager(IUserDal userDal)
+    public UserManager(IUserDal userDal, ITokenHelper tokenHelper)
     {
         _userDal = userDal;
+        _tokenHelper = tokenHelper;
     }
 
     public void Register(RegisterRequest request)
@@ -30,12 +33,15 @@ public class UserManager : IUserService
         _userDal.Add(user);
     }
 
-    public bool Login(LoginRequest request)
+    public AccessToken Login(LoginRequest request)
     {
         User? user = _userDal.Get(i => i.Email == request.Email);
         // Business Rules...
 
         bool isPasswordCorrect = HashingHelper.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt);
-        return isPasswordCorrect;
+
+        if (!isPasswordCorrect)
+            throw new Exception("Şifre yanlış.");
+        return _tokenHelper.CreateToken(user);
     }
 }
