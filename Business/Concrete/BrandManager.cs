@@ -3,11 +3,13 @@ using Business.Abstract;
 using Business.BusinessRules;
 using Business.Requests.Brand;
 using Business.Responses.Brand;
+using Core.Entities;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
 using System.Security.AccessControl;
+using System.Security.Claims;
 
 namespace Business.Concrete;
 
@@ -29,9 +31,14 @@ public class BrandManager : IBrandService
 
     public AddBrandResponse Add(AddBrandRequest request)
     {
-        if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+        if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
         {
             throw new Exception("Bu endpoint'i çalıştırmak için giriş yapmak zorundasınız!");
+        }
+
+        if (_httpContextAccessor.HttpContext.User.HasClaim(c => c.Type == ClaimTypes.Role && (c.Value == "Admin")))
+        {
+            throw new Exception("Adminsiniz!");
         }
         // İş Kuralları
         _brandBusinessRules.CheckIfBrandNameNotExists(request.Name);

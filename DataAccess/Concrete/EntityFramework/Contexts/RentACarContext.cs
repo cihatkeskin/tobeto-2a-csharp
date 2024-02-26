@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Contracts;
 
 namespace DataAccess.Concrete.EntityFramework.Contexts;
 
@@ -12,6 +13,7 @@ public class RentACarContext : DbContext
     public DbSet<Model> Models { get; set; }
     public DbSet<Car> Cars { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     public RentACarContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions) { }
@@ -24,6 +26,10 @@ public class RentACarContext : DbContext
             e.HasKey(i => i.Id);
             e.Property(i=>i.Premium).HasDefaultValue(true);
         });
+
+        modelBuilder.Entity<RoleUser>()
+            .HasKey(ru => new { ru.UserId, ru.RoleId });
+
         base.OnModelCreating(modelBuilder); // Normalde yaptığı işlemleri sürdürür.
     }
 }

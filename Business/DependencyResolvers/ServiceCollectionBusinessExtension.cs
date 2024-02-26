@@ -59,6 +59,11 @@ public static class ServiceCollectionBusinessExtension
             .AddScoped<IUserDal, EfUserDal>()
             .AddScoped<ModelBusinessRules>();
 
+        services
+            .AddScoped<IRoleService, RoleManager>()
+            .AddScoped<IRoleDal, EfRoleDal>()
+            .AddScoped<ModelBusinessRules>();
+
         services.AddAutoMapper(Assembly.GetExecutingAssembly()); // AutoMapper.Extensions.Microsoft.DependencyInjection NuGet Paketi
         // Reflection yöntemiyle Profile class'ını kalıtım alan tüm class'ları bulur ve AutoMapper'a ekler.
 
